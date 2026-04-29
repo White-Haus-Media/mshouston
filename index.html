@@ -143,6 +143,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     // preserve ordering (React before ReactDOM before Babel before text/babel).
     const doc = new DOMParser().parseFromString(template, 'text/html');
     document.documentElement.replaceWith(doc.documentElement);
+    // Fix: hidden sticky topbar was reserving 60px of empty cream space at the
+    // top of the cover. Switch to fixed so it overlays without taking layout space.
+    const _whmTopbarFix = document.createElement('style');
+    _whmTopbarFix.textContent = '.topbar{position:fixed!important;left:0!important;right:0!important;top:0!important;}';
+    (document.head || document.documentElement).appendChild(_whmTopbarFix);
     const dead = Array.from(document.scripts);
     for (const old of dead) {
       const s = document.createElement('script');
